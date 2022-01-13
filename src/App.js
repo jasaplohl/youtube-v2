@@ -1,7 +1,8 @@
 import { Component } from 'react';
-import './App.css';
 
 import SearchBar from './components/search_bar';
+import Video from './components/video';
+import RecommendedSection from './components/recommended_section';
 
 /**
  * We can use two types of components in React:
@@ -24,6 +25,9 @@ class App extends Component {
       videos: []
     }
 
+  }
+
+  componentDidMount() {
     this.fetchSearchResults("");
   }
 
@@ -40,9 +44,9 @@ class App extends Component {
         return response.json()
       })
       .then(videos => {
+        console.log(videos);
         videos = videos.items;
         this.setState({ videos }); // same as this.setState({ videos: videos });
-        console.log(this.state);
       })
       .catch(error => {
         console.log(error);
@@ -51,8 +55,16 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="app-container">
           <SearchBar />
+          <div className="d-flex">
+            <div className="w-75">
+              <Video />
+            </div>
+            <div className="w-25">
+              <RecommendedSection videos={this.state.videos} />
+            </div>
+          </div>
       </div>
     );
   }

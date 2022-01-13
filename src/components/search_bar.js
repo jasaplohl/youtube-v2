@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons"
 
 class SearchBar extends Component {
 
@@ -14,9 +16,11 @@ class SearchBar extends Component {
 
     render() {
         return(
-            <div>
-                <input onChange={event => this.setState({ search_term: event.target.value })}/>
-                <p>{this.state.search_term}</p>
+            <div className="d-flex">
+                <input 
+                    onChange={event => this.setState({ search_term: event.target.value })}
+                    className="form-control"/>
+                <button className="btn btn-outline-primary"><span className="d-flex align-items-center"><FontAwesomeIcon icon={faSearch} />Search</span></button>
             </div>
         );
     }
