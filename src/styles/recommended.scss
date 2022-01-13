@@ -1,3 +1,41 @@
+@import "./variables.scss";
+
 .recommended {
-    list-style-type: none;
+
+    &--card {
+        list-style: none;
+        display: flex;
+        margin-top: 0.2rem;
+        margin-bottom: 0.2rem;
+        padding: 0.2rem;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+
+        &:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.4);
+            cursor: pointer;
+        }
+    }
+
+    &--link {
+        text-decoration: none;
+        color: $color-primary;
+    }
+
+    &--img {
+        // object-fit: scale-down;
+    }
+
+    &--title {
+        font-weight: 500;
+        overflow: hidden;
+        line-height: 1.5rem;
+        max-height: 3rem;
+    }
+
+    &--channel {
+        font-size: 0.8rem;
+        color: rgba(0,0,0,0.7);
+    }
+
 }

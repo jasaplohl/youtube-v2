@@ -24,7 +24,6 @@ class App extends Component {
     this.state = { 
       videos: []
     }
-
   }
 
   componentDidMount() {
@@ -35,8 +34,8 @@ class App extends Component {
     fetch("https://www.googleapis.com/youtube/v3/search?" + new URLSearchParams({
       "key": process.env.REACT_APP_API_KEY,
       "maxResults": "10",
-      "q": search_term,
-      "part": "snippet"
+      "part": "snippet",
+      "q": search_term
     }), {
       method: "GET"
     })

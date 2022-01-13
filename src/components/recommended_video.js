@@ -1,21 +1,18 @@
-import React, { Component } from "react";
+import "../styles/recommended.scss"
 
-class RecommendedVideo extends Component{
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            video: props.video
-        };
-    }
-
-    render() {
-        return(
+const RecommendedVideo = ({ video }) => {
+    const imgUrl = video.snippet.thumbnails.default.url;
+    return(
+        <li className="recommended--card" >
+            <img className="recommended--img" src={imgUrl}/>
             <div>
-                <p>{this.state.video.snippet.title}</p>
+                <p className="recommended--title">{video.snippet.title}</p>
+                <p className="recommended--channel">{video.snippet.channelTitle}</p>
             </div>
-        );
-    }
+            {/* <a className="d-flex w-100 h-100" href="#">
+            </a> */}
+        </li>
+    );
 }
 
 export default RecommendedVideo;
