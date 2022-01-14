@@ -37,6 +37,10 @@ class Video extends Component {
               console.log(error);
           });
     }
+
+    componentDidMount() {
+        // this.getVideoRating(this.props.video.id.videoId);
+    }
     
     render() {
         let videoId;
@@ -49,8 +53,6 @@ class Video extends Component {
             url = `https://www.youtube.com/embed/${videoId}`;
             title = this.props.video.snippet.title;
             description = this.props.video.snippet.description;
-
-            this.getVideoRating(videoId);
         }
         
         return(

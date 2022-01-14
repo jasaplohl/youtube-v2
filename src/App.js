@@ -55,15 +55,24 @@ class App extends Component {
   render() {
     return (
       <div className="app-container">
-          <SearchBar />
-          <div className="d-flex">
-            <div className="w-75">
-              <Video video={this.state.videos[0]} />
-            </div>
-            <div className="w-25">
-              <RecommendedSection videos={this.state.videos} />
+        <SearchBar />
+        {this.state.videos ? (
+          <div>
+            <div className="d-flex">
+              <div className="w-75">
+                <Video video={this.state.videos[0]} />
+              </div>
+              <div className="w-25">
+                <RecommendedSection videos={this.state.videos} />
+              </div>
             </div>
           </div>
+        ) : (
+          <div>
+            <p>There are no available videos at the moment</p>
+          </div>
+        )}
+          
       </div>
     );
   }
