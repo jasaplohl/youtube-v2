@@ -58,7 +58,7 @@ class App extends Component {
           <SearchBar />
           <div className="d-flex">
             <div className="w-75">
-              <Video />
+              <Video video={this.state.videos[0]} />
             </div>
             <div className="w-25">
               <RecommendedSection videos={this.state.videos} />
