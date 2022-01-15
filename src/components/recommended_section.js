@@ -8,7 +8,8 @@ const RecommendedSection = (prop) => {
         <ul className="list-group">
             {prop.videos.map((video) => {
                 return (
-                    <RecommendedVideo 
+                    <RecommendedVideo
+                        onVideoSelect={prop.onVideoSelect}
                         key={video.etag}
                         video={video} />
                 )

@@ -14,6 +14,9 @@ import RecommendedSection from './components/recommended_section';
  * 
  * Data flow should go downward -> parent should fetch the data and pass it to its
  * children.
+ * 
+ * Never call the setState() function inside the render() function, because that would result in
+ * an endless loop.
  */
 
 class App extends Component {
@@ -45,7 +48,6 @@ class App extends Component {
         return response.json()
       })
       .then(videos => {
-        console.log(videos.items);
         videos = videos.items;
         this.setState({ 
           videos, // same as this.setState({ videos: videos });
@@ -83,6 +85,13 @@ class App extends Component {
       });
   }
 
+  onVideoSelect(currentVideo) {
+    this.setState({
+      currentVideo
+    });
+    this.getVideoRating(currentVideo.id.videoId)
+  }
+
   render() {
     return (
       <div className="app-container">
@@ -96,7 +105,9 @@ class App extends Component {
                   ratings={this.state.ratings} />
               </div>
               <div className="w-25">
-                <RecommendedSection videos={this.state.videos} />
+                <RecommendedSection
+                  onVideoSelect={(currentVideo) => this.onVideoSelect(currentVideo)}
+                  videos={this.state.videos} />
               </div>
             </div>
           </div>

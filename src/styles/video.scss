@@ -2,6 +2,7 @@
 
 .video {
     width: 100%;
+    padding: 0.3rem;
 
     &--container {
         position: relative;
@@ -11,7 +12,6 @@
     }
 
     &--video {
-        margin-top: 0.3rem;
         position: absolute;
         top: 0;
         left: 0;

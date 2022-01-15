@@ -18,7 +18,7 @@ class Video extends Component {
         // If the video hasnt loaded yet, display a loading spinner
         if(!this.props.video || !this.props.ratings) {
             return(
-                <div>
+                <div className="d-flex justify-content-center mt-4">
                     <TailSpin />
                 </div>
             );
@@ -62,7 +62,7 @@ class Video extends Component {
                     </div>
                     <p>{channelTitle}</p>
                     <p className="video--description">{description}</p>
-                    <p>{commentCount}</p>
+                    <p>{commentCount} comments</p>
                 </div>
             </div>
         );
