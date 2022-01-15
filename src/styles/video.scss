@@ -27,11 +27,12 @@
     }
 
     &--details {
-        
+        margin-top: 1rem;
     }
 
     &--title {
-
+        font-weight: 500;
+        font-size: $font-size-lg;
     }
 
     &--description {

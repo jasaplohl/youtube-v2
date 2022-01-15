@@ -102,18 +102,16 @@ class App extends Component {
         <SearchBar 
           onSearchClick={(search_term) => this.onSearchClick(search_term)}/>
         {this.state.videos ? (
-          <div>
-            <div className="d-flex">
-              <div className="w-75">
-                <Video 
-                  video={this.state.currentVideo} 
-                  ratings={this.state.ratings} />
-              </div>
-              <div className="w-25">
-                <RecommendedSection
-                  onVideoSelect={(currentVideo) => this.onVideoSelect(currentVideo)}
-                  videos={this.state.videos} />
-              </div>
+          <div id="pageContent">
+            <div id="videoContainer">
+              <Video 
+                video={this.state.currentVideo} 
+                ratings={this.state.ratings} />
+            </div>
+            <div id="recommendedSectionContainer">
+              <RecommendedSection
+                onVideoSelect={(currentVideo) => this.onVideoSelect(currentVideo)}
+                videos={this.state.videos} />
             </div>
           </div>
         ) : (

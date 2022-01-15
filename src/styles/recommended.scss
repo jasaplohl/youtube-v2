@@ -8,11 +8,11 @@
         margin-top: 0.2rem;
         margin-bottom: 0.2rem;
         padding: 0.2rem;
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        box-shadow: 0 4px 8px 0 $black-opacity-sm;
         transition: 0.3s;
 
         &:hover {
-            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.4);
+            box-shadow: 0 8px 16px 0 $black-opacity-md;
             cursor: pointer;
         }
     }
@@ -34,8 +34,8 @@
     }
 
     &--channel {
-        font-size: 0.8rem;
-        color: rgba(0,0,0,0.7);
+        font-size: $font-size-sm;
+        color: $black-opacity-lg;
     }
 
 }

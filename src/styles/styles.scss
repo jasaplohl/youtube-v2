@@ -4,3 +4,35 @@
     font-size: $font-size;
     padding: $padding;
 }
+
+.text-sm {
+    font-size: $font-size-sm;
+}
+
+@media (min-width: $screen-breakpoint) {
+    #pageContent {
+        display: flex;
+    }
+
+    #videoContainer {
+        width: 75%;
+    }
+
+    #recommendedSectionContainer {
+        width: 25%;
+    }
+}
+
+@media (max-width: $screen-breakpoint) {
+    #pageContent {
+        display: block;
+    }
+
+    #videoContainer {
+        width: 100%;
+    }
+
+    #recommendedSectionContainer {
+        width: 100%;
+    }
+}

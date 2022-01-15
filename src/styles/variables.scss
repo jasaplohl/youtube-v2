@@ -1,4 +1,13 @@
+$screen-breakpoint: 1230px;
+
 $font-size: 1rem;
+$font-size-sm: 0.9rem;
+$font-size-lg: 1.2rem;
+
 $padding: 2rem;
 
 $color-primary: #000000;
+
+$black-opacity-sm: rgba(0,0,0,0.2);
+$black-opacity-md: rgba(0,0,0,0.4);
+$black-opacity-lg: rgba(0,0,0,0.7);

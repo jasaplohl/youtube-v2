@@ -55,13 +55,15 @@ class Video extends Component {
                     <p className="video--title">{title}</p>
                     <div className="video--ratings">
                         <div className="d-flex">
-                            <p className="pe-2">{publishedAt}</p>
-                            <p>{viewCount} views</p>
+                            <p className="pe-2 text-sm">{publishedAt}</p>
+                            <p className="text-sm">{Number(viewCount).toLocaleString()} views</p>
                         </div>
-                        <p><FontAwesomeIcon icon={faThumbsUp} />{likeCount}</p>
+                        <p><FontAwesomeIcon icon={faThumbsUp} />{Number(likeCount).toLocaleString()}</p>
                     </div>
+                    <hr />
                     <p>{channelTitle}</p>
                     <p className="video--description">{description}</p>
+                    <hr />
                     <p>{commentCount} comments</p>
                 </div>
             </div>
