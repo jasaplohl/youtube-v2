@@ -3,6 +3,7 @@ import { Component } from 'react';
 import SearchBar from './components/search_bar';
 import Video from './components/video';
 import RecommendedSection from './components/recommended_section';
+import Header from './components/header';
 
 /**
  * We can use two types of components in React:
@@ -92,34 +93,37 @@ class App extends Component {
     this.getVideoRating(currentVideo.id.videoId);
   }
 
-  onSearchClick(search_term) {
+  onSearch(search_term) {
     this.fetchSearchResults(search_term);
   }
 
   render() {
     return (
-      <div className="app-container">
-        <SearchBar 
-          onSearchClick={(search_term) => this.onSearchClick(search_term)}/>
-        {this.state.videos ? (
-          <div id="pageContent">
-            <div id="videoContainer">
-              <Video 
-                video={this.state.currentVideo} 
-                ratings={this.state.ratings} />
+      <div>
+        <Header />
+        <div className="app-container">
+          <SearchBar 
+            onSearch={(search_term) => this.onSearch(search_term)}/>
+          {this.state.videos ? (
+            <div id="pageContent" className="pt-3">
+              <div id="videoContainer">
+                <Video 
+                  video={this.state.currentVideo} 
+                  ratings={this.state.ratings} />
+              </div>
+              <div id="recommendedSectionContainer">
+                <RecommendedSection
+                  onVideoSelect={(currentVideo) => this.onVideoSelect(currentVideo)}
+                  videos={this.state.videos} />
+              </div>
             </div>
-            <div id="recommendedSectionContainer">
-              <RecommendedSection
-                onVideoSelect={(currentVideo) => this.onVideoSelect(currentVideo)}
-                videos={this.state.videos} />
+          ) : (
+            <div className="d-flex justify-content-center pt-4">
+              <p>There are no available videos at the moment</p>
             </div>
-          </div>
-        ) : (
-          <div className="d-flex justify-content-center pt-4">
-            <p>There are no available videos at the moment</p>
-          </div>
-        )}
-          
+          )}
+            
+        </div>
       </div>
     );
   }

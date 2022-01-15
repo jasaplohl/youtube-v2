@@ -11,7 +11,7 @@ class SearchBar extends Component {
     }
 
     onFormSubmit(event) {
-        this.props.onSearchClick(this.state.search_term);
+        this.props.onSearch(this.state.search_term);
         event.preventDefault();
     }
 

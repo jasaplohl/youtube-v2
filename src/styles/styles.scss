@@ -2,7 +2,10 @@
 
 .app-container {
     font-size: $font-size;
-    padding: $padding;
+    padding-left: $padding;
+    padding-right: $padding;
+    padding-bottom: $padding;
+    padding-top: 1rem;
 }
 
 .text-sm {
