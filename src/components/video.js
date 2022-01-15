@@ -16,15 +16,13 @@ class Video extends Component {
 
     render() {
         // If the video hasnt loaded yet, display a loading spinner
-        if(!this.props.video || !this.props.ratings) {
+        if(!this.props.video || !this.props.ratings || !this.props.channelInfo) {
             return(
                 <div className="d-flex justify-content-center mt-4">
                     <TailSpin />
                 </div>
             );
         }
-
-        console.log(this.props.video);
         
         // Video info
         const videoId = this.props.video.id.videoId;
@@ -37,6 +35,10 @@ class Video extends Component {
         const viewCount = this.props.ratings.viewCount;
         const likeCount = this.props.ratings.likeCount;
         const commentCount = this.props.ratings.commentCount;
+
+        // Channel info
+        const subscribers = this.props.channelInfo.subscribers;
+        const channelThumbnail = this.props.channelInfo.thumbnail;
 
         let publishedAt = new Date(this.props.video.snippet.publishedAt);
         const day = 1000 * 60 * 60 * 24; // Milliseconds in a day
@@ -61,7 +63,13 @@ class Video extends Component {
                         <p><FontAwesomeIcon icon={faThumbsUp} />{Number(likeCount).toLocaleString()}</p>
                     </div>
                     <hr />
-                    <p>{channelTitle}</p>
+                    <div className="d-flex">
+                        <img alt="channelThumbnail" src={channelThumbnail}/>
+                        <div>
+                            <p>{channelTitle}</p>
+                            <p>{subscribers}</p>
+                        </div>
+                    </div>
                     <p className="video--description">{description}</p>
                     <hr />
                     <p>{commentCount} comments</p>

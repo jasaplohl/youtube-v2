@@ -28,7 +28,8 @@ class App extends Component {
     this.state = { 
       videos: [],
       currentVideo: null,
-      ratings: null
+      ratings: null,
+      channelInfo: null
     }
   }
 
@@ -54,7 +55,8 @@ class App extends Component {
           videos, // same as this.setState({ videos: videos });
           currentVideo: videos[0]
          });
-        this.getVideoRating(this.state.currentVideo.id.videoId)
+        this.getVideoRating(this.state.currentVideo.id.videoId);
+        this.getChannelInfo(this.state.currentVideo.snippet.channelId);
       })
       .catch(error => {
         console.log(error);
@@ -86,6 +88,30 @@ class App extends Component {
       });
   }
 
+  getChannelInfo(channelId) {
+    fetch("https://www.googleapis.com/youtube/v3/channels?" + new URLSearchParams({
+        "key": process.env.REACT_APP_API_KEY,
+        "id": channelId,
+        "part": "statistics,snippet",
+    }), {
+        method: "GET"
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(response => {
+          this.setState({
+            channelInfo : {
+              subscribers: response.items[0].statistics.subscriberCount,
+              thumbnail: response.items[0].snippet.thumbnails.default.url
+            }
+          });
+      })
+      .catch(error => {
+          console.log(error);
+      });
+  }
+
   onVideoSelect(currentVideo) {
     this.setState({
       currentVideo
@@ -109,7 +135,8 @@ class App extends Component {
               <div id="videoContainer">
                 <Video 
                   video={this.state.currentVideo} 
-                  ratings={this.state.ratings} />
+                  ratings={this.state.ratings}
+                  channelInfo={this.state.channelInfo} />
               </div>
               <div id="recommendedSectionContainer">
                 <RecommendedSection
