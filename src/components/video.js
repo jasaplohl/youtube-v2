@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { TailSpin } from "react-loader-spinner";
+import moment from "moment";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faThumbsUp } from "@fortawesome/free-solid-svg-icons"
 
 import "../styles/video.scss";
 
@@ -8,77 +11,63 @@ class Video extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            viewCount: 0,
-            likeCount: 0,
-            commentCount: 0
-        };
+        this.state = {};
     }
 
-    getVideoRating(videoId) {
-        fetch("https://www.googleapis.com/youtube/v3/videos?" + new URLSearchParams({
-            "key": process.env.REACT_APP_API_KEY,
-            "id": videoId,
-            "part": "statistics"
-        }), {
-            method: "GET"
-        })
-          .then(response => {
-            return response.json();
-          })
-          .then(response => {
-                this.setState({
-                    viewCount: response.items[0].statistics.viewCount,
-                    likeCount: response.items[0].statistics.likeCount,
-                    commentCount: response.items[0].statistics.commentCount
-                });
-          })
-          .catch(error => {
-              console.log(error);
-          });
-    }
-
-    componentDidMount() {
-        // this.getVideoRating(this.props.video.id.videoId);
-    }
-    
     render() {
-        let videoId;
-        let url;
-        let title;
-        let description;
-
-        if(this.props.video) {
-            videoId = this.props.video.id.videoId;
-            url = `https://www.youtube.com/embed/${videoId}`;
-            title = this.props.video.snippet.title;
-            description = this.props.video.snippet.description;
+        // If the video hasnt loaded yet, display a loading spinner
+        if(!this.props.video || !this.props.ratings) {
+            return(
+                <div>
+                    <TailSpin />
+                </div>
+            );
         }
+
+        console.log(this.props.video);
         
+        // Video info
+        const videoId = this.props.video.id.videoId;
+        const url = `https://www.youtube.com/embed/${videoId}`;
+        const title = this.props.video.snippet.title;
+        const channelTitle = this.props.video.snippet.channelTitle;
+        const description = this.props.video.snippet.description;
+
+        // Video ratings
+        const viewCount = this.props.ratings.viewCount;
+        const likeCount = this.props.ratings.likeCount;
+        const commentCount = this.props.ratings.commentCount;
+
+        let publishedAt = new Date(this.props.video.snippet.publishedAt);
+        const day = 1000 * 60 * 60 * 24; // Milliseconds in a day
+        if(new Date() - publishedAt <= day) {
+            publishedAt = moment(publishedAt).fromNow();
+        } else {
+            publishedAt = moment(publishedAt).format("DD. MMM. YYYY");
+        }
+
         return(
-            <div className="video-container">
-                {this.props.video ? (
-                    <div>
-                        <div className="video-container--video">
-                            <iframe src={url}></iframe>
+            <div className="video">
+                <div className="video--container">
+                    <iframe className="video--video" title="currentVideo" src={url}></iframe>
+                </div>
+                <div className="video--details">
+                    <p className="video--title">{title}</p>
+                    <div className="video--ratings">
+                        <div className="d-flex">
+                            <p className="pe-2">{publishedAt}</p>
+                            <p>{viewCount} views</p>
                         </div>
-                        <div className="video-container--details">
-                            <p>{this.state.viewCount}</p>
-                            <p>{this.state.likeCount}</p>
-                            <p>{this.state.commentCount}</p>
-                            <p className="video-container--title">{title}</p>
-                            <p className="video-container--description">{description}</p>
-                        </div>
+                        <p><FontAwesomeIcon icon={faThumbsUp} />{likeCount}</p>
                     </div>
-                ) : (
-                    <div>
-                        <TailSpin />
-                    </div>
-                )}
+                    <p>{channelTitle}</p>
+                    <p className="video--description">{description}</p>
+                    <p>{commentCount}</p>
+                </div>
             </div>
         );
-        
     }
+
 }
 
 export default Video;

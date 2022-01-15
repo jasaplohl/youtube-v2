@@ -22,7 +22,9 @@ class App extends Component {
     super(props);
 
     this.state = { 
-      videos: []
+      videos: [],
+      currentVideo: null,
+      ratings: null
     }
   }
 
@@ -30,7 +32,7 @@ class App extends Component {
     this.fetchSearchResults("");
   }
 
-  async fetchSearchResults (search_term) {
+  fetchSearchResults (search_term) {
     fetch("https://www.googleapis.com/youtube/v3/search?" + new URLSearchParams({
       "key": process.env.REACT_APP_API_KEY,
       "maxResults": "10",
@@ -43,12 +45,41 @@ class App extends Component {
         return response.json()
       })
       .then(videos => {
-        console.log(videos);
+        console.log(videos.items);
         videos = videos.items;
-        this.setState({ videos }); // same as this.setState({ videos: videos });
+        this.setState({ 
+          videos, // same as this.setState({ videos: videos });
+          currentVideo: videos[0]
+         });
+        this.getVideoRating(this.state.currentVideo.id.videoId)
       })
       .catch(error => {
         console.log(error);
+      });
+  }
+
+  getVideoRating(videoId) {
+    fetch("https://www.googleapis.com/youtube/v3/videos?" + new URLSearchParams({
+        "key": process.env.REACT_APP_API_KEY,
+        "id": videoId,
+        "part": "statistics"
+    }), {
+        method: "GET"
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(response => {
+          this.setState({
+            ratings : {
+              viewCount: response.items[0].statistics.viewCount,
+              likeCount: response.items[0].statistics.likeCount,
+              commentCount: response.items[0].statistics.commentCount
+            }
+          });
+      })
+      .catch(error => {
+          console.log(error);
       });
   }
 
@@ -60,7 +91,9 @@ class App extends Component {
           <div>
             <div className="d-flex">
               <div className="w-75">
-                <Video video={this.state.videos[0]} />
+                <Video 
+                  video={this.state.currentVideo} 
+                  ratings={this.state.ratings} />
               </div>
               <div className="w-25">
                 <RecommendedSection videos={this.state.videos} />
