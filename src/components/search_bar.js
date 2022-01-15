@@ -10,18 +10,25 @@ class SearchBar extends Component {
         this.state = { search_term: "" };
     }
 
-    componentDidMount() {
-        
+    onFormSubmit(event) {
+        this.props.onSearchClick(this.state.search_term);
+        event.preventDefault();
     }
 
     render() {
         return(
-            <div className="d-flex">
+            <form
+                className="d-flex w-100"
+                onSubmit={(e) => this.onFormSubmit(e)}>
                 <input 
                     onChange={event => this.setState({ search_term: event.target.value })}
                     className="form-control"/>
-                <button className="btn btn-outline-primary"><span className="d-flex align-items-center"><FontAwesomeIcon icon={faSearch} />Search</span></button>
-            </div>
+                <button 
+                    className="btn btn-outline-primary"
+                    type="submit">
+                    <span className="d-flex align-items-center"><FontAwesomeIcon icon={faSearch} />Search</span>
+                </button>
+            </form>
         );
     }
 

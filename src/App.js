@@ -89,13 +89,18 @@ class App extends Component {
     this.setState({
       currentVideo
     });
-    this.getVideoRating(currentVideo.id.videoId)
+    this.getVideoRating(currentVideo.id.videoId);
+  }
+
+  onSearchClick(search_term) {
+    this.fetchSearchResults(search_term);
   }
 
   render() {
     return (
       <div className="app-container">
-        <SearchBar />
+        <SearchBar 
+          onSearchClick={(search_term) => this.onSearchClick(search_term)}/>
         {this.state.videos ? (
           <div>
             <div className="d-flex">
@@ -112,7 +117,7 @@ class App extends Component {
             </div>
           </div>
         ) : (
-          <div>
+          <div className="d-flex justify-content-center pt-4">
             <p>There are no available videos at the moment</p>
           </div>
         )}
