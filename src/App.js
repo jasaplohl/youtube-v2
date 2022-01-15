@@ -117,6 +117,7 @@ class App extends Component {
       currentVideo
     });
     this.getVideoRating(currentVideo.id.videoId);
+    this.getChannelInfo(currentVideo.snippet.channelId);
   }
 
   onSearch(search_term) {
