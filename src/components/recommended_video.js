@@ -1,4 +1,5 @@
-import "../styles/recommended.scss"
+import "../styles/recommended.scss";
+import moment from "moment";
 
 const RecommendedVideo = ({ video, onVideoSelect }) => {
     const imgUrl = video.snippet.thumbnails.default.url;
@@ -7,7 +8,10 @@ const RecommendedVideo = ({ video, onVideoSelect }) => {
             <img src={imgUrl} alt="video-thumbnail"/>
             <div className="recommended--details">
                 <p className="recommended--title">{video.snippet.title}</p>
-                <p className="recommended--channel">{video.snippet.channelTitle}</p>
+                <p className="recommended--info">{video.snippet.channelTitle}</p>
+                <div className="d-flex pb-1">
+                    <p className="recommended--info">{moment(video.snippet.publishedAt).fromNow()}</p>
+                </div>
             </div>
         </li>
     );

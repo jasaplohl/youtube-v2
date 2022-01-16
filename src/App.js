@@ -29,7 +29,8 @@ class App extends Component {
       videos: [],
       currentVideo: null,
       ratings: null,
-      channelInfo: null
+      channelInfo: null,
+      comments: null
     }
   }
 
@@ -57,6 +58,7 @@ class App extends Component {
          });
         this.getVideoRating(this.state.currentVideo.id.videoId);
         this.getChannelInfo(this.state.currentVideo.snippet.channelId);
+        this.getComments(this.state.currentVideo.id.videoId);
       })
       .catch(error => {
         console.log(error);
@@ -75,24 +77,48 @@ class App extends Component {
         return response.json();
       })
       .then(response => {
-          this.setState({
-            ratings : {
-              viewCount: response.items[0].statistics.viewCount,
-              likeCount: response.items[0].statistics.likeCount,
-              commentCount: response.items[0].statistics.commentCount
-            }
-          });
+        this.setState({
+          ratings : {
+            viewCount: response.items[0].statistics.viewCount,
+            likeCount: response.items[0].statistics.likeCount,
+            commentCount: response.items[0].statistics.commentCount
+          }
+        });
       })
       .catch(error => {
-          console.log(error);
+        console.log(error);
       });
   }
 
   getChannelInfo(channelId) {
     fetch("https://www.googleapis.com/youtube/v3/channels?" + new URLSearchParams({
-        "key": process.env.REACT_APP_API_KEY,
-        "id": channelId,
-        "part": "statistics,snippet",
+      "key": process.env.REACT_APP_API_KEY,
+      "id": channelId,
+      "part": "statistics,snippet",
+    }), {
+      method: "GET"
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(response => {
+        this.setState({
+          channelInfo : {
+            subscribers: response.items[0].statistics.subscriberCount,
+            thumbnail: response.items[0].snippet.thumbnails.default.url
+          }
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  getComments(videoId) {
+    fetch("https://www.googleapis.com/youtube/v3/commentThreads?" + new URLSearchParams({
+      "key": process.env.REACT_APP_API_KEY,
+      "videoId": videoId,
+      "part": "snippet,replies",
     }), {
         method: "GET"
     })
@@ -100,15 +126,10 @@ class App extends Component {
         return response.json();
       })
       .then(response => {
-          this.setState({
-            channelInfo : {
-              subscribers: response.items[0].statistics.subscriberCount,
-              thumbnail: response.items[0].snippet.thumbnails.default.url
-            }
-          });
+        this.setState({comments: response});
       })
       .catch(error => {
-          console.log(error);
+        console.log(error);
       });
   }
 
@@ -118,6 +139,7 @@ class App extends Component {
     });
     this.getVideoRating(currentVideo.id.videoId);
     this.getChannelInfo(currentVideo.snippet.channelId);
+    this.getComments(currentVideo.id.videoId);
   }
 
   onSearch(search_term) {
@@ -137,7 +159,8 @@ class App extends Component {
                 <Video 
                   video={this.state.currentVideo} 
                   ratings={this.state.ratings}
-                  channelInfo={this.state.channelInfo} />
+                  channelInfo={this.state.channelInfo}
+                  comments={this.state.comments} />
               </div>
               <div id="recommendedSectionContainer">
                 <RecommendedSection

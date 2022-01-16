@@ -4,6 +4,8 @@ import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons"
 
+import Comment from "./comment";
+
 import "../styles/video.scss";
 
 class Video extends Component {
@@ -57,22 +59,39 @@ class Video extends Component {
                     <p className="video--title">{title}</p>
                     <div className="video--ratings">
                         <div className="d-flex">
-                            <p className="pe-2 text-sm">{publishedAt}</p>
-                            <p className="text-sm">{Number(viewCount).toLocaleString()} views</p>
+                            <p className="pe-2 text-sm mb-0">{publishedAt}</p>
+                            <p className="text-sm mb-0">{Number(viewCount).toLocaleString()} views</p>
                         </div>
-                        <p><FontAwesomeIcon icon={faThumbsUp} />{Number(likeCount).toLocaleString()}</p>
+                        <p className="mb-0"><FontAwesomeIcon icon={faThumbsUp} className="me-1" />{Number(likeCount).toLocaleString()}</p>
                     </div>
                     <hr />
                     <div className="d-flex">
-                        <img alt="channelThumbnail" src={channelThumbnail}/>
+                        <img alt="channelThumbnail" src={channelThumbnail} className="video--channel-thumbnail" />
                         <div>
-                            <p>{channelTitle}</p>
-                            <p>{subscribers}</p>
+                            <p className="video--channel-title">{channelTitle}</p>
+                            <p className="video--channel-subscribers">{Number(subscribers).toLocaleString()} subscribers</p>
+                            <p>{description}</p>
                         </div>
                     </div>
-                    <p className="video--description">{description}</p>
                     <hr />
-                    <p>{commentCount} comments</p>
+                    {this.props.comments ? (
+                        <div>
+                            {!this.props.comments.error ? (
+                                <div>
+                                    <p>{commentCount} comments</p>
+                                    {this.props.comments.items.map(comment => {
+                                        return <Comment comment={comment}/>;
+                                    })}
+                                </div>
+                            ) : (
+                                <p>The comments for this video have been disabled.</p>
+                            )}
+                        </div>
+                    ) : (
+                        <div className="d-flex justify-content-center pt-3">
+                            <TailSpin />
+                        </div>
+                    )}
                 </div>
             </div>
         );

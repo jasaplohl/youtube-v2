@@ -27,11 +27,13 @@
         overflow: hidden;
         line-height: 1.5rem;
         max-height: 3rem;
+        margin-bottom: 0.5rem;
     }
 
-    &--channel {
+    &--info {
         font-size: $font-size-sm;
         color: $black-opacity-lg;
+        margin-bottom: 0;
     }
 
 }
