@@ -62,7 +62,7 @@ class Video extends Component {
                             <p className="pe-2 text-sm mb-0">{publishedAt}</p>
                             <p className="text-sm mb-0">{Number(viewCount).toLocaleString()} views</p>
                         </div>
-                        <p className="mb-0"><FontAwesomeIcon icon={faThumbsUp} className="me-1" />{Number(likeCount).toLocaleString()}</p>
+                        <p className="mb-0"><FontAwesomeIcon icon={faThumbsUp} /> {Number(likeCount).toLocaleString()}</p>
                     </div>
                     <hr />
                     <div className="d-flex">
@@ -79,9 +79,15 @@ class Video extends Component {
                             {!this.props.comments.error ? (
                                 <div>
                                     <p>{commentCount} comments</p>
-                                    {this.props.comments.items.map(comment => {
-                                        return <Comment comment={comment}/>;
-                                    })}
+                                    <ul>
+                                        {this.props.comments.items.map(comment => {
+                                            return (
+                                                <Comment 
+                                                    key={comment.etag}
+                                                    comment={comment}/>
+                                            );
+                                        })}
+                                    </ul>
                                 </div>
                             ) : (
                                 <p>The comments for this video have been disabled.</p>

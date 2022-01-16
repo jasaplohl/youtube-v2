@@ -118,7 +118,8 @@ class App extends Component {
     fetch("https://www.googleapis.com/youtube/v3/commentThreads?" + new URLSearchParams({
       "key": process.env.REACT_APP_API_KEY,
       "videoId": videoId,
-      "part": "snippet,replies",
+      "part": "snippet",
+      "order": "relevance"
     }), {
         method: "GET"
     })

@@ -1,6 +1,34 @@
+@import "./variables.scss";
+
 .comment {
+  list-style: none;
+
   &--content {
     overflow: hidden;
     overflow-wrap: break-word;
   }
+
+  &--channel-thumbnail {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    margin-right: 1rem;
+  }
+
+  &--info {
+    display: flex;
+    align-items: center;
+  }
+
+  &--channel-title {
+    font-weight: 500;
+    padding-right: 1rem;
+    margin-bottom: 0.2rem;
+  }
+
+  &--publish-time {
+    font-size: $font-size-sm;
+    margin-bottom: 0.2rem;
+  }
+
 }
