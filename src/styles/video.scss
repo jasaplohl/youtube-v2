@@ -19,6 +19,7 @@
         right: 0;
         width: 100%;
         height: 100%;
+        padding-right: 1.5rem;
     }
 
     &--ratings {
@@ -35,8 +36,20 @@
         font-size: $font-size-lg;
     }
 
-    &--description {
-        width: 100%;
+    &--channel-thumbnail {
+        border-radius: 50%;
+        max-height: 70px;
+        max-width: 70px;
+        margin-right: 1rem;
+    }
+
+    &--channel-title {
+        font-weight: 500;
+        margin-bottom: 0;
+    }
+
+    &--channel-subscribers {
+        font-size: $font-size-sm
     }
 
 }

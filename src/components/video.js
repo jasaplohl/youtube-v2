@@ -4,6 +4,8 @@ import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons"
 
+import Comment from "./comment";
+
 import "../styles/video.scss";
 
 class Video extends Component {
@@ -16,15 +18,13 @@ class Video extends Component {
 
     render() {
         // If the video hasnt loaded yet, display a loading spinner
-        if(!this.props.video || !this.props.ratings) {
+        if(!this.props.video || !this.props.ratings || !this.props.channelInfo) {
             return(
                 <div className="d-flex justify-content-center mt-4">
                     <TailSpin />
                 </div>
             );
         }
-
-        console.log(this.props.video);
         
         // Video info
         const videoId = this.props.video.id.videoId;
@@ -37,6 +37,10 @@ class Video extends Component {
         const viewCount = this.props.ratings.viewCount;
         const likeCount = this.props.ratings.likeCount;
         const commentCount = this.props.ratings.commentCount;
+
+        // Channel info
+        const subscribers = this.props.channelInfo.subscribers;
+        const channelThumbnail = this.props.channelInfo.thumbnail;
 
         let publishedAt = new Date(this.props.video.snippet.publishedAt);
         const day = 1000 * 60 * 60 * 24; // Milliseconds in a day
@@ -55,16 +59,45 @@ class Video extends Component {
                     <p className="video--title">{title}</p>
                     <div className="video--ratings">
                         <div className="d-flex">
-                            <p className="pe-2 text-sm">{publishedAt}</p>
-                            <p className="text-sm">{Number(viewCount).toLocaleString()} views</p>
+                            <p className="pe-2 text-sm mb-0">{publishedAt}</p>
+                            <p className="text-sm mb-0">{Number(viewCount).toLocaleString()} views</p>
                         </div>
-                        <p><FontAwesomeIcon icon={faThumbsUp} />{Number(likeCount).toLocaleString()}</p>
+                        <p className="mb-0"><FontAwesomeIcon icon={faThumbsUp} /> {Number(likeCount).toLocaleString()}</p>
                     </div>
                     <hr />
-                    <p>{channelTitle}</p>
-                    <p className="video--description">{description}</p>
+                    <div className="d-flex">
+                        <img alt="channelThumbnail" src={channelThumbnail} className="video--channel-thumbnail" />
+                        <div>
+                            <p className="video--channel-title">{channelTitle}</p>
+                            <p className="video--channel-subscribers">{Number(subscribers).toLocaleString()} subscribers</p>
+                            <p>{description}</p>
+                        </div>
+                    </div>
                     <hr />
-                    <p>{commentCount} comments</p>
+                    {this.props.comments ? (
+                        <div>
+                            {!this.props.comments.error ? (
+                                <div>
+                                    <p>{commentCount} comments</p>
+                                    <ul>
+                                        {this.props.comments.items.map(comment => {
+                                            return (
+                                                <Comment 
+                                                    key={comment.etag}
+                                                    comment={comment}/>
+                                            );
+                                        })}
+                                    </ul>
+                                </div>
+                            ) : (
+                                <p>The comments for this video have been disabled.</p>
+                            )}
+                        </div>
+                    ) : (
+                        <div className="d-flex justify-content-center pt-3">
+                            <TailSpin />
+                        </div>
+                    )}
                 </div>
             </div>
         );

@@ -1,7 +1,7 @@
 import React from "react";
 import RecommendedVideo from "./recommended_video";
 
-import "../styles/recommended.scss"
+import "../styles/recommended.scss";
 
 const RecommendedSection = (prop) => {
     return (
